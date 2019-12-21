@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title> NFC Parking </title>
+
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+</head>
+<body class="bg-info">
+
+  <div class="container">
+
+    <div class="row justify-content-center">
+      <div class="col-xl-12 col-lg-12 col-md-9">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h1 text-gray-800 mb-4"> Input Data </h1>
+                  </div>
+                  <hr>
+                  <form class="user">
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Nama </h5>
+                      <input type="text" class="form-control form-control-user" id="InputName" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
+                      <input type="text" class="form-control form-control-user" id="InputTempatLahir" placeholder="Tempat Lahir">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
+                      <input type="date" class="form-control form-control-user" id="InputTanggalLahir" placeholder="Tanggal Lahir">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
+                      <input type="text" class="form-control form-control-user" id="InputJenisKelamin" placeholder="Jenis Kelamin">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Alamat </h5>
+                      <input type="text" class="form-control form-control-user" id="InputAlamat" placeholder="Alamat">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> RT </h5>
+                      <input type="text" class="form-control form-control-user" id="InputRT" placeholder="RT">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> RW </h5>
+                      <input type="text" class="form-control form-control-user" id="InputRW" placeholder="RW">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Kelurahan / Desa </h5>
+                      <input type="text" class="form-control form-control-user" id="InputKelDes" placeholder="Kel / Desa">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Kecamatan </h5>
+                      <input type="text" class="form-control form-control-user" id="InputKecamatan" placeholder="Kecamatan">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Agama </h5>
+                      <input type="text" class="form-control form-control-user" id="InputAgama" placeholder="Agama">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Status Perkawinan </h5>
+                      <input type="text" class="form-control form-control-user" id="InputStatus" placeholder="Status Perkawinan">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
+                      <input type="text" class="form-control form-control-user" id="InputPekerjaan" placeholder="Pekerjaan">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
+                      <input type="text" class="form-control form-control-user" id="InputKewarganegaraan" placeholder="Kewarganegaraan">
+                    </div>
+                    <div class="form-group">
+                      <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
+                      <select class="form-control" onchange="pilihJenis()" id="JenisIdentitas">
+                        <option value="home" > Pemilik Rumah </option>
+                        <option value="visitor"> Tamu </option>
+                      </select>
+                    </div>
+                    <div class="form-group" id="overlay" style="display: none;">
+                      <h5 class="font-weight-bold mb-3"> Kenalan </h5>
+                      <input type="search" class="form-control form-control-user" id="InputKenalan" placeholder="Kenalan">
+                    </div>
+                    <a href="index.html" class="btn btn-primary btn-user btn-block" onclick="off()">
+                      Input
+                    </a>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <p class="small text-primary"> Make Sure u have input the right data! </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>
