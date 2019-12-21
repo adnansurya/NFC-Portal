@@ -1,6 +1,6 @@
 function pilihJenis() {
      
-    var e = document.getElementById("JenisIdentitas");
+    var e = document.getElementById("identitas");
     var jenisId = e.options[e.selectedIndex].value;
     if(jenisId == "home"){
         document.getElementById("overlay").style.display = "none";

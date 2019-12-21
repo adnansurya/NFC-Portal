@@ -141,7 +141,7 @@
   <script>
     $('#submitBtn').click(function(){
 
-        let idNFC, namaOrang, umurOrang, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, Identitas, home, visitor, kenalan;
+        let idNFC, namaOrang, umurOrang, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
         idNFC = $('#idNFC').val();
         namaOrang = $('#namaOrang').val(); 
         umurOrang = $('#umur').val();
@@ -156,7 +156,7 @@
         status = $('#status').val();
         profesiOrang = $('#profesi').val();
         kNegara = $('#kNegara').val();
-        Identitas = $('#identitas').val();
+        identitas = $('#identitas').val();
         kenalan = $('#kenalan').val();
         
         db.ref('Users/' + idNFC).set({
@@ -175,7 +175,7 @@
             status : status,
             profesi : profesiOrang,
             kNegara : kNegara,
-            identitas : Identitas,
+            identitas : identitas,
             kenalan : kenalan
 
         }, function(error){
