@@ -10,8 +10,29 @@
 
   <title> NFC Parking </title>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyCx6AdfG2fje0BXshS4koOw02GYTxH9ots",
+    authDomain: "myclasswebsite-3eca2.firebaseapp.com",
+    databaseURL: "https://myclasswebsite-3eca2.firebaseio.com",
+    projectId: "myclasswebsite-3eca2",
+    storageBucket: "myclasswebsite-3eca2.appspot.com",
+    messagingSenderId: "779841356082",
+    appId: "1:779841356082:web:e8f8e288c0feeb1025572b",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body class="bg-info">
 
@@ -31,12 +52,16 @@
                   <hr>
                   <form class="user">
                     <div class="form-group">
-                      <h5 class="font-weight-bold mb-3"> Nama </h5>
-                      <input type="text" class="form-control form-control-user" id="InputName" placeholder="Nama">
+                      <label for="idNFC"> idNFC </label>
+                      <input name="idNFC" id="idNFC" type="text" class="form-control form-control-user" placeholder="Nama">
                     </div>
                     <div class="form-group">
-                      <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
-                      <input type="text" class="form-control form-control-user" id="InputTempatLahir" placeholder="Tempat Lahir">
+                      <label for="namaOrang"> Nama orang </label>
+                      <input name="namaOrang" id="namaOrang" type="text" class="form-control form-control-user" placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                      <label for="umur"> Umur </label>
+                      <input type="text" name="umur" id="umur" class="form-control form-control-user" placeholder="Tempat Lahir">
                     </div>
                     <div class="form-group">
                       <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
@@ -75,8 +100,8 @@
                       <input type="text" class="form-control form-control-user" id="InputStatus" placeholder="Status Perkawinan">
                     </div>
                     <div class="form-group">
-                      <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
-                      <input type="text" class="form-control form-control-user" id="InputPekerjaan" placeholder="Pekerjaan">
+                      <label for="profesi"> Profesi </label>
+                      <input type="text" name="profesi" id="profesi" class="form-control form-control-user" placeholder="Pekerjaan">
                     </div>
                     <div class="form-group">
                       <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
@@ -93,9 +118,9 @@
                       <h5 class="font-weight-bold mb-3"> Kenalan </h5>
                       <input type="search" class="form-control form-control-user" id="InputKenalan" placeholder="Kenalan">
                     </div>
-                    <a href="index.html" class="btn btn-primary btn-user btn-block" onclick="off()">
-                      Input
-                    </a>
+                    <button id="submitBtn" class="btn btn-primary btn-user btn-block">
+                      Kirim
+                    </button>
                   </form>
                   <hr>
                   <div class="text-center">
@@ -111,6 +136,35 @@
     </div>
 
   </div>
+
+  <!-- Firebase Database Javascript -->
+  <script>
+    $('#submitBtn').click(function(){
+
+        let namaOrang, umur, profesi, idNFC;
+        IdNFC = $('#idNFC').val();
+        namaOrang = $('#namaOrang').val(); 
+        umurOrang = $('#umur').val();
+        profesiOrang = $('#profesi').val();
+        
+        db.ref('Users/' + IdNFC).set({
+            nama : namaOrang,
+            umur : umurOrang,
+            profesi : profesiOrang
+        }, function(error){
+            if (error) {
+                alert(error);
+            } else {
+                $('#namaOrang').val('');
+                $('#umur').val('');
+                $('#profesi').val('');
+                location.href = "inputData.html";
+                // location.href = "index2.html"; //pindah ke index.html
+            }
+        });
+
+    });
+</script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
