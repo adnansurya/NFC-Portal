@@ -197,17 +197,10 @@
                     <span aria-hidden="true">×</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  <p class="small">Tanggal Lahir : 18-07-1995</p>
-                  <p class="small"> Gol Darah : AB </p>
-                  <p class="small"> Alamat : JL. Toddopuli V STP.I No.5 </p>
-                  <p class="small"> RT : 001 </p>
-                  <p class="small"> RW : 003 </p>
-                  <p class="small"> Kel / Desa : Borong </p>
-                  <p class="small"> Kecamantan : Manggala </p>
-                  <p class="small"> Status Perkawinan : Pelajar/Mahasiswa </p>
-                  <p class="small"> Kewarganegaraan : WNI </p>
-                  <p class="small"> Jenis Identitas : Pemilik Rumah </p>
+
+                <!-- Modal Details -->
+                <div class="modal-body" id="modalDetails">
+                  
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -226,80 +219,12 @@
                       <span aria-hidden="true">×</span>
                     </button>
                   </div>
-                  <div class="modal-body">
-                    <form class="user">
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Nama </h5>
-                        <input type="text" class="form-control form-control-user" id="InputName" placeholder="Nama">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
-                        <input type="text" class="form-control form-control-user" id="InputTempatLahir" placeholder="Tempat Lahir">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
-                        <input type="date" class="form-control form-control-user" id="InputTanggalLahir" placeholder="Tanggal Lahir">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
-                        <input type="text" class="form-control form-control-user" id="InputJenisKelamin" placeholder="Jenis Kelamin">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Alamat </h5>
-                        <input type="text" class="form-control form-control-user" id="InputAlamat" placeholder="Alamat">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> RT </h5>
-                        <input type="text" class="form-control form-control-user" id="InputRT" placeholder="RT">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> RW </h5>
-                        <input type="text" class="form-control form-control-user" id="InputRW" placeholder="RW">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Kelurahan / Desa </h5>
-                        <input type="text" class="form-control form-control-user" id="InputKelDes" placeholder="Kel / Desa">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Kecamatan </h5>
-                        <input type="text" class="form-control form-control-user" id="InputKecamatan" placeholder="Kecamatan">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Agama </h5>
-                        <input type="text" class="form-control form-control-user" id="InputAgama" placeholder="Agama">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Status Perkawinan </h5>
-                        <input type="text" class="form-control form-control-user" id="InputStatus" placeholder="Status Perkawinan">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
-                        <input type="text" class="form-control form-control-user" id="InputPekerjaan" placeholder="Pekerjaan">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
-                        <input type="text" class="form-control form-control-user" id="InputKewarganegaraan" placeholder="Kewarganegaraan">
-                      </div>
-                      <div class="form-group">
-                        <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
-                        <select class="form-control" onchange="pilihJenis()" id="JenisIdentitas">
-                          <option value="home" > Pemilik Rumah </option>
-                          <option value="visitor"> Tamu </option>
-                        </select>
-                      </div>
-                      <div class="form-group" id="overlay" style="display: none;">
-                        <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
-                        <input type="search" class="form-control form-control-user" id="InputKewarganegaraan" placeholder="Jenis Identitas">
-                      </div>
-                      <div class="text-center mt-4">
-                        <p class="small text-primary"> Make Sure u have input the right data! </p>
-                      </div>
-                    </form>
+
+                  <!-- Modal Edit -->
+                  <div class="modal-body" id="modalEdits">
+                    
                   </div>
-                  <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-warning" href="charts.html"> Change </a>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -316,7 +241,8 @@
                     </div>
                     <div class="modal-body">
                       R u sure u wanna delete this data, it wont appear again if u delete this data, u should input the new data again..
-                      <p class="text-primary"> So make sure u have already make a right choice </p>
+                      <p class="text-primary"> So make sure u have already make a right 
+      <!-- End of Footer -->choice </p>
                     </div>
                     <div class="modal-footer">
                       <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
@@ -340,7 +266,6 @@
           </div>
         </div>
       </footer>
-      <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
@@ -373,48 +298,6 @@
   </div>
 
 <!-- FIREBASE CONFIG -->
-<script>
-
-  db.ref('Users').once('value').then(function(snapshot) {
-    snapshot.forEach(function(data) {
-      let satuId = data.val();
-      $('#tabelBody').append(`
-        <tr>
-          <td>` + satuId.nama + `</td>
-          <td>` + satuId.umur + `</td>
-          <td>` + satuId.profesi + `</td>
-          <td>` + data.key + `</td>
-          <td>
-          <!-- Detail Button -->
-          <a type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#detailModal">
-            Detail
-          </a>
-          <!-- Edit Button -->
-          <a type="button" class="btn btn-warning" href="#" data-toggle="modal" data-target="#editModal">
-            Edit
-          </a>
-          <!-- Delete Button -->
-          <a type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">
-            Delete
-          </a>
-              
-          </td>
-        </tr>
-        
-      `);
-    });
-  });
-
-  function hapus(satuId) {
-    db.ref('Users/2:bb:69:31:90:56:40/' + satuId).remove();
-    location.href = "index2.html";
-  }
-
-  function update(satuId) {
-    location.href = "charts.html?id=" + satuId
-  }
-
-</script>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -434,6 +317,241 @@
   <script src="js/demo/datatables-demo.js"></script>
 
   <script src="script.js"></script>
+
+  <script>
+
+  let usersObj;
+
+  db.ref('Users').once('value').then(function(snapshot) {
+
+    usersObj = snapshot.val();
+
+    snapshot.forEach(function(data) {
+      let satuId = data.val();
+
+      $('#tabelBody').append(`
+        <tr>
+          <td>` + satuId.nama + `</td>
+          <td>` + satuId.alamat + `</td>
+          <td>` + satuId.identitas + `</td>
+          <td>` + satuId.profesi + `</td>
+          <td>
+          <!-- Detail Button -->
+          <a type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#detailModal" data-child-id="`+ data.key +`">
+            Details
+          </a>
+          <!-- Edit Button -->
+          <a type="button" class="btn btn-warning" href="#" data-toggle="modal" data-target="#editModal" data-child-id="` + data.key + `">
+            Edit
+          </a>
+          <!-- Delete Button -->
+          <a type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">
+            Delete
+          </a>
+          </td>
+        </tr>
+
+      `);
+
+    });
+  });
+ 
+  $('#detailModal').on('show.bs.modal', function(e) {
+  
+    let childId = $(e.relatedTarget).data('child-id');
+  
+    $('#modalDetails').append(`
+        <p> Id NFC : ` + childId + `</p> 
+        <p> Agama : ` + usersObj[childId].agama  + `</p>
+        <p> Alamat : ` + usersObj[childId].alamat  + `</p>                     
+        <p> Identitas : ` + usersObj[childId].identitas  + `</p>              
+        <p> Jenis Kelamin : ` + usersObj[childId].jKel  + `</p>              
+        <p> Kewarganegaraan : ` + usersObj[childId].kNegara  + `</p>              
+        <p> Kecamatan : ` + usersObj[childId].kecamatan + `</p>              
+        <p> Kelurahan / Desa : ` + usersObj[childId].kelDes + `</p>              
+        <p> Kenalan : ` + usersObj[childId].kenalan + `</p>              
+        <p> Nama : ` + usersObj[childId].nama + `</p>              
+        <p> Profesi : ` + usersObj[childId].profesi + `</p>              
+        <p> RT(Rukun Tetangga) : ` + usersObj[childId].rt + `</p>              
+        <p> RW(Rukun Warga) : ` + usersObj[childId].rw + `</p>              
+        <p> Status Perkawinan : ` + usersObj[childId].status + `</p>              
+        <p> Tanggal Lahir : ` + usersObj[childId].tgLahir + `</p>              
+        <p> Umur : ` + usersObj[childId].umur + `</p>              
+    `); 
+  });
+
+  $('#editModal').on('show.bs.modal', function(e) {
+
+    let childId = $(e.relatedTarget).data('child-id');
+
+    $('#modalEdits').append(`
+      <form class="user">
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Id NFC </h5>
+            <input type="text" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ childId +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Nama </h5>
+            <input type="text" class="form-control form-control-user" id="namaOrang" placeholder="Nama" value="`+ usersObj[childId].nama +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Umur </h5>
+            <input type="text" class="form-control form-control-user" id="umur" placeholder="umur" value="`+ usersObj[childId].umur +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
+            <input type="text" class="form-control form-control-user" id="InputTempatLahir" placeholder="Tempat Lahir" value="`+ usersObj[childId].tpLahir +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
+            <input type="date" class="form-control form-control-user" id="tgLahir" placeholder="Tanggal Lahir" value="`+ usersObj[childId].tgLahir +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
+            <input type="text" class="form-control form-control-user" id="jKel" placeholder="Jenis Kelamin" value="`+ usersObj[childId].jKel +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Alamat </h5>
+            <input type="text" class="form-control form-control-user" id="alamat" placeholder="Alamat" value="`+ usersObj[childId].alamat +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> RT </h5>
+            <input type="text" class="form-control form-control-user" id="rt" placeholder="RT" value="`+ usersObj[childId].rt +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> RW </h5>
+            <input type="text" class="form-control form-control-user" id="rw" placeholder="RW" value="`+ usersObj[childId].rw +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kelurahan / Desa </h5>
+            <input type="text" class="form-control form-control-user" id="kelDes" placeholder="Kel / Desa" value="`+ usersObj[childId].kelDes +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kecamatan </h5>
+            <input type="text" class="form-control form-control-user" id="kecamatan" placeholder="Kecamatan" value="`+ usersObj[childId].kecamatan +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Agama </h5>
+            <input type="text" class="form-control form-control-user" id="agama" placeholder="Agama" value="`+ usersObj[childId].agama +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Status Perkawinan </h5>
+            <input type="text" class="form-control form-control-user" id="status" placeholder="Status Perkawinan" value="`+ usersObj[childId].status +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
+            <input type="text" class="form-control form-control-user" id="profesi" placeholder="Pekerjaan" value="`+ usersObj[childId].profesi +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
+            <input type="text" class="form-control form-control-user" id="kNegara" placeholder="Kewarganegaraan" value="`+ usersObj[childId].kNegara +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
+            <select class="form-control" onchange="pilihJenis()" id="identitas" value="` +usersObj[childId].identitas+ `">
+              <option name="home" id="home" value="home"> Pemilik Rumah </option>
+              <option name="visitor" id="visitor" value="visitor"> Tamu </option>
+            </select>
+          </div>
+          <div class="form-group" id="overlay" style="display: none;">
+            <h5 class="font-weight-bold mb-3"> Kenalan </h5>
+            <input type="search" class="form-control form-control-user" name="kenalan" id="kenalan" placeholder="Kenalan" value="`+usersObj[childId].kenalan+`">
+          </div>
+          <button id="submitBtn" class="btn btn-primary btn-user btn-block">
+            Kirim
+          </button> 
+          <div class="text-center mt-4">
+            <p class="small text-primary"> Make Sure u have input the right data! </p>
+          </div>  
+    </form>
+    `);
+
+  });
+
+  $('#detailModal').on('hidden.bs.modal', function (e) {
+    $('#modalDetails').empty();
+  });
+
+  $('#editModal').on('hidden.bs.modal', function (e) {
+    $('#modalEdits').empty();
+  });
+
+  $('#submitBtn').click(function(){
+        let idNFC, namaOrang, umurOrang, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
+        idNFC = $('#idNFC').val();
+        namaOrang = $('#namaOrang').val(); 
+        umurOrang = $('#umur').val();
+        tgLahir = $('#tgLahir').val();
+        jKel = $('#jKel').val();
+        alamat = $('#alamat').val();
+        rt = $('#rt').val();
+        rw = $('#rw').val();
+        kelDes = $('#kelDes').val();
+        kecamatan = $('#kecamatan').val();
+        agama = $('#agama').val();
+        status = $('#status').val();
+        profesiOrang = $('#profesi').val();
+        kNegara = $('#kNegara').val();
+        identitas = $('#identitas').val();
+        kenalan = $('#kenalan').val();
+        
+        db.ref('Users/' + idNFC).update({
+          // Sebelah Kiri variabel buat file Firebase dan disebelah kanan variabel javascript(yang di atas)
+          // NOTE : JANGAN DI HAPUS WOI(MASIH AWAM)
+            nama : namaOrang,
+            umur : umurOrang,
+            tgLahir : tgLahir,
+            jKel : jKel,
+            alamat : alamat,
+            rt : rt,
+            rw : rw,
+            kelDes : kelDes,
+            kecamatan : kecamatan,
+            agama : agama,
+            status : status,
+            profesi : profesiOrang,
+            kNegara : kNegara,
+            identitas : identitas,
+            kenalan : kenalan
+
+        }, function(error){
+            if (error) {
+                alert(error);
+            } else {
+                $('#idNFC').val('');
+                $('#namaOrang').val('');
+                $('#umur').val('');
+                $('#tgLahir').val('');
+                $('#jKel').val('');
+                $('#alamat').val('');
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#kelDes').val('');
+                $('#kecamatan').val('');
+                $('#agama').val('');
+                $('#status').val('');
+                $('#profesi').val('');
+                $('#kNegara').val('');
+                $('#identitas').val('');
+                $('#kenalan').val('');
+                location.href = "charts.html";
+                // location.href = "index2.html"; //pindah ke index.html
+            }
+        });
+
+    });
+
+  function hapus(satuId) {
+    db.ref('Users/' + satuId).remove();
+    location.href = "chart.html";
+  }
+
+  function update(satuId) {
+    location.href = "charts.html?id=" + satuId
+  }
+
+</script>
+
 
 </body>
 
