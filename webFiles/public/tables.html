@@ -11,6 +11,10 @@
 
   <title> NFC Parking </title>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -20,6 +24,25 @@
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyCx6AdfG2fje0BXshS4koOw02GYTxH9ots",
+    authDomain: "myclasswebsite-3eca2.firebaseapp.com",
+    databaseURL: "https://myclasswebsite-3eca2.firebaseio.com",
+    projectId: "myclasswebsite-3eca2",
+    storageBucket: "myclasswebsite-3eca2.appspot.com",
+    messagingSenderId: "779841356082",
+    appId: "1:779841356082:web:e8f8e288c0feeb1025572b",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 
@@ -148,48 +171,65 @@
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%">
-                  <table class="table">
+                  <table class="table" id="tabelBody">
                     <thead class="thead-dark">
                       <tr>
-                        <th scope="col"> No </th>
-                        <th scope="col"> Waktu </th>
-                        <th scope="col"> Nama </th>
-                        <th scope="col"> Alamat </th>
                         <th scope="col"> Id NFC </th>
-                        <th scope="col"> Status </th>
+                        <th scope="col"> Identitas </th>
+                        <th scope="col"> Waktu </th>
+                        <th scope="col"> Action </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td> 17 </td>
-                        <td> 192.168.0.1 </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td> 20 </td>
-                        <td> 192.168.0.2 </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td> 35 </td>
-                        <td> 192.168.0.3 </td>
-                      </tr>
+                      
                     </tbody>
                   </table>
                 </table>
               </div>
             </div>
           </div>
+
+          <!-- Detail Modal -->
+          <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"> Details </h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+
+                <!-- Modal Details -->
+                <div class="modal-body" id="modalDetails">
+                  
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Edit the Data </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+
+                  <!-- Modal Edit -->
+                  <div class="modal-body" id="modalEdits">
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -253,6 +293,246 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+  <script src="script.js"></script>
+
+  <script>
+  let usersObj;
+
+  db.ref('Log').once('value').then(function(snapshot) {
+    
+    snapshot.forEach(function(data) {
+      let satuId = data.val();
+      let tombol;
+
+      if(satuId.Status === "Dikenali") {
+        tombol = 
+          `<a type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#detailModal" data-child-id="` + data.key + `" data-id-nfc="`+satuId.IdNFC+`"> Detail
+          </a>`;
+      } else {
+       tombol = 
+          `<a type="button" class="btn btn-success" href="#" data-toggle="modal" data-target="#editModal" data-child-id="` + data.key + `" data-id-nfc="`+satuId.IdNFC+`">
+            Daftar
+          </a>`;
+      }
+
+      $('#tabelBody').append(`
+        <tr>
+          <td>` + satuId.IdNFC + `</td>
+          <td>` + satuId.Status + `</td>
+          <td> 12:39 </td>
+          <td>` + tombol + `</td>
+        </tr>
+      `);
+    });
+  }); 
+
+ 
+  // ------------------------------ DETAILS MODAL ------------------------------
+  $('#detailModal').on('show.bs.modal', function(e) {
+    let userObj;
+    
+    let childId = $(e.relatedTarget).data('child-id');
+    let idNFC = $(e.relatedTarget).data('id-nfc'); 
+    
+     db.ref('Users/' + idNFC).once('value').then(function(snapshot) {
+      userObj = snapshot.val();
+
+       $('#modalDetails').append(`
+        <p> Id Push : ` + childId + `</p> 
+        <p> Agama : ` + userObj.agama  + `</p>
+        <p> Alamat : ` + userObj.alamat  + `</p>                     
+        <p> Identitas : ` + userObj.identitas  + `</p>              
+        <p> Jenis Kelamin : ` + userObj.jKel  + `</p>              
+        <p> Kewarganegaraan : ` + userObj.kNegara  + `</p>              
+        <p> Kecamatan : ` + userObj.kecamatan + `</p>              
+        <p> Kelurahan / Desa : ` + userObj.kelDes + `</p>              
+        <p> Kenalan : ` + userObj.kenalan + `</p>              
+        <p> Nama : ` + userObj.nama + `</p>              
+        <p> Profesi : ` + userObj.profesi + `</p>              
+        <p> RT(Rukun Tetangga) : ` + userObj.rt + `</p>              
+        <p> RW(Rukun Warga) : ` + userObj.rw + `</p>              
+        <p> Status Perkawinan : ` + userObj.status + `</p>              
+        <p> Tempat Lahir : ` + userObj.tpLahir + `</p>              
+        <p> Tanggal Lahir : ` + userObj.tgLahir + `</p>              
+        <p> Umur : ` + userObj.umur + `</p>              
+    `); 
+    });
+   
+  });
+  // ------------------------------ END OF DETAILS MODAL -----------------------------------
+
+  // ------------------ EDIT MODAL -------------------------
+  $('#editModal').on('show.bs.modal', function(e) {
+
+    let childId = $(e.relatedTarget).data('child-id');
+    let idNFC = $(e.relatedTarget).data('id-nfc');
+    $('#modalEdits').append(`
+      <form class="user">
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Id NFC </h5>
+            <h6 class=""> `+ idNFC +` </h6>
+            <input type="hidden" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ idNFC +`">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Nama </h5>
+            <input type="text" class="form-control form-control-user" id="namaOrang" placeholder="Nama">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Umur </h5>
+            <input type="text" class="form-control form-control-user" id="umur" placeholder="umur">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
+            <input type="text" class="form-control form-control-user" id="tpLahir" placeholder="Tempat Lahir">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
+            <input type="date" class="form-control form-control-user" id="tgLahir" placeholder="Tanggal Lahir">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
+            <input type="text" class="form-control form-control-user" id="jKel" placeholder="Jenis Kelamin">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Alamat </h5>
+            <input type="text" class="form-control form-control-user" id="alamat" placeholder="Alamat">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> RT </h5>
+            <input type="text" class="form-control form-control-user" id="rt" placeholder="RT">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> RW </h5>
+            <input type="text" class="form-control form-control-user" id="rw" placeholder="RW">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kelurahan / Desa </h5>
+            <input type="text" class="form-control form-control-user" id="kelDes" placeholder="Kel / Desa">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kecamatan </h5>
+            <input type="text" class="form-control form-control-user" id="kecamatan" placeholder="Kecamatan">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Agama </h5>
+            <input type="text" class="form-control form-control-user" id="agama" placeholder="Agama">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Status Perkawinan </h5>
+            <input type="text" class="form-control form-control-user" id="status" placeholder="Status Perkawinan">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
+            <input type="text" class="form-control form-control-user" id="profesi" placeholder="Pekerjaan">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
+            <input type="text" class="form-control form-control-user" id="kNegara" placeholder="Kewarganegaraan">
+          </div>
+          <div class="form-group">
+            <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
+            <select class="form-control" onchange="pilihJenis()" id="identitas">
+              <option name="home" id="home" value="home"> Pemilik Rumah </option>
+              <option name="visitor" id="visitor" value="visitor"> Tamu </option>
+            </select>
+          </div>
+          <div class="form-group" id="overlay" style="display: none;">
+            <h5 class="font-weight-bold mb-3"> Kenalan </h5>
+            <input type="search" class="form-control form-control-user" name="kenalan" id="kenalan" placeholder="Kenalan">
+          </div>
+          <button id="submitBtn" class="btn btn-primary btn-user btn-block">
+            Kirim
+          </button> 
+          <div class="text-center mt-4">
+            <p class="small text-primary"> Make Sure u have input the right data! </p>
+          </div>  
+    </form>
+    `);
+  
+  $('#submitBtn').click(function(){
+        let idNFC, namaOrang, umurOrang, tpLahir, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
+        idNFC = $('#idNFC').val();
+        namaOrang = $('#namaOrang').val(); 
+        umurOrang = $('#umur').val();
+        tpLahir = $('#tpLahir').val();
+        tgLahir = $('#tgLahir').val();
+        jKel = $('#jKel').val();
+        alamat = $('#alamat').val();
+        rt = $('#rt').val();
+        rw = $('#rw').val();
+        kelDes = $('#kelDes').val();
+        kecamatan = $('#kecamatan').val();
+        agama = $('#agama').val();
+        status = $('#status').val();
+        profesiOrang = $('#profesi').val();
+        kNegara = $('#kNegara').val();
+        identitas = $('#identitas').val();
+        kenalan = $('#kenalan').val();
+        
+        if( identitas === "home" ) {
+          kenalan = "";
+        } 
+        db.ref('Users/' + idNFC).update({
+          // Sebelah Kiri variabel buat file Firebase dan disebelah kanan variabel javascript(yang di atas)
+          // NOTE : JANGAN DI HAPUS WOI(MASIH AWAM)
+            nama : namaOrang,
+            umur : umurOrang,
+            tpLahir : tpLahir,
+            tgLahir : tgLahir,
+            jKel : jKel,
+            alamat : alamat,
+            rt : rt,
+            rw : rw,
+            kelDes : kelDes,
+            kecamatan : kecamatan,
+            agama : agama,
+            status : status,
+            profesi : profesiOrang,
+            kNegara : kNegara,
+            identitas : identitas,
+            kenalan : kenalan
+
+        }, function(error){
+            if (error) {
+                alert(error);
+            } else {
+                $('#idNFC').val('');
+                $('#namaOrang').val('');
+                $('#umur').val('');
+                $('#tpLahir').val('');
+                $('#tgLahir').val('');
+                $('#jKel').val('');
+                $('#alamat').val('');
+                $('#RT').val('');
+                $('#RW').val('');
+                $('#kelDes').val('');
+                $('#kecamatan').val('');
+                $('#agama').val('');
+                $('#status').val('');
+                $('#profesi').val('');
+                $('#kNegara').val('');
+                $('#identitas').val('');
+                $('#kenalan').val('');
+                location.href = "tables.html";
+                // location.href = "index2.html"; //pindah ke index.html
+            }
+        });
+
+    });
+
+  });
+  // ------------------- END OF EDIT MODAL ------------------------------
+
+  $('#detailModal').on('hidden.bs.modal', function (e) {
+    $('#modalDetails').empty();
+  });
+
+  $('#editModal').on('hidden.bs.modal', function (e) {
+    $('#modalEdits').empty();
+  });
+
+  </script>
 
 </body>
 

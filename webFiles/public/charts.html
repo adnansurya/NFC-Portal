@@ -239,15 +239,10 @@
                         <span aria-hidden="true">×</span>
                       </button>
                     </div>
-                    <div class="modal-body">
-                      R u sure u wanna delete this data, it wont appear again if u delete this data, u should input the new data again..
-                      <p class="text-primary"> So make sure u have already make a right 
-      <!-- End of Footer -->choice </p>
+                    <div class="modal-body" id="modalDelete">
+                      
                     </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                      <a class="btn btn-primary" href="charts.html">Delete</a>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -345,7 +340,7 @@
             Edit
           </a>
           <!-- Delete Button -->
-          <a type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">
+          <a type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" data-child-id="` +data.key+ `">
             Delete
           </a>
           </td>
@@ -356,6 +351,7 @@
     });
   });
  
+ // ------------------------------ DETAILS MODAL ------------------------------
   $('#detailModal').on('show.bs.modal', function(e) {
   
     let childId = $(e.relatedTarget).data('child-id');
@@ -375,11 +371,14 @@
         <p> RT(Rukun Tetangga) : ` + usersObj[childId].rt + `</p>              
         <p> RW(Rukun Warga) : ` + usersObj[childId].rw + `</p>              
         <p> Status Perkawinan : ` + usersObj[childId].status + `</p>              
+        <p> Tempat Lahir : ` + usersObj[childId].tpLahir + `</p>              
         <p> Tanggal Lahir : ` + usersObj[childId].tgLahir + `</p>              
         <p> Umur : ` + usersObj[childId].umur + `</p>              
     `); 
   });
+  // ------------------------------ END OF DETAILS MODAL -----------------------------------
 
+  // ------------------ EDIT MODAL -------------------------
   $('#editModal').on('show.bs.modal', function(e) {
 
     let childId = $(e.relatedTarget).data('child-id');
@@ -388,7 +387,8 @@
       <form class="user">
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Id NFC </h5>
-            <input type="text" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ childId +`">
+            <h6 class=""> `+ childId +` </h6>
+            <input type="hidden" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ childId +`">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Nama </h5>
@@ -400,7 +400,7 @@
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
-            <input type="text" class="form-control form-control-user" id="InputTempatLahir" placeholder="Tempat Lahir" value="`+ usersObj[childId].tpLahir +`">
+            <input type="text" class="form-control form-control-user" id="tpLahir" placeholder="Tempat Lahir" value="`+ usersObj[childId].tpLahir +`">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
@@ -465,22 +465,13 @@
           </div>  
     </form>
     `);
-
-  });
-
-  $('#detailModal').on('hidden.bs.modal', function (e) {
-    $('#modalDetails').empty();
-  });
-
-  $('#editModal').on('hidden.bs.modal', function (e) {
-    $('#modalEdits').empty();
-  });
-
+  
   $('#submitBtn').click(function(){
-        let idNFC, namaOrang, umurOrang, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
+        let idNFC, namaOrang, umurOrang, tpLahir, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
         idNFC = $('#idNFC').val();
         namaOrang = $('#namaOrang').val(); 
         umurOrang = $('#umur').val();
+        tpLahir = $('#tpLahir').val();
         tgLahir = $('#tgLahir').val();
         jKel = $('#jKel').val();
         alamat = $('#alamat').val();
@@ -495,11 +486,15 @@
         identitas = $('#identitas').val();
         kenalan = $('#kenalan').val();
         
+        if( identitas === "home" ) {
+          kenalan = "";
+        } 
         db.ref('Users/' + idNFC).update({
           // Sebelah Kiri variabel buat file Firebase dan disebelah kanan variabel javascript(yang di atas)
           // NOTE : JANGAN DI HAPUS WOI(MASIH AWAM)
             nama : namaOrang,
             umur : umurOrang,
+            tpLahir : tpLahir,
             tgLahir : tgLahir,
             jKel : jKel,
             alamat : alamat,
@@ -521,6 +516,7 @@
                 $('#idNFC').val('');
                 $('#namaOrang').val('');
                 $('#umur').val('');
+                $('#tpLahir').val('');
                 $('#tgLahir').val('');
                 $('#jKel').val('');
                 $('#alamat').val('');
@@ -541,13 +537,56 @@
 
     });
 
+  });
+  // ------------------- END OF EDIT MODAL ------------------------------
+
+  // -------------------------- DELETE MODAL ---------------------------
+  $('#deleteModal').on('show.bs.modal', function(e) {
+      let childId = $(e.relatedTarget).data('child-id');
+
+      $('#modalDelete').append(`
+        <p> Id NFC : ` + childId + `</p> 
+        <p> Agama : ` + usersObj[childId].agama  + `</p>
+        <p> Alamat : ` + usersObj[childId].alamat  + `</p>                     
+        <p> Identitas : ` + usersObj[childId].identitas  + `</p>              
+        <p> Jenis Kelamin : ` + usersObj[childId].jKel  + `</p>              
+        <p> Kewarganegaraan : ` + usersObj[childId].kNegara  + `</p>              
+        <p> Kecamatan : ` + usersObj[childId].kecamatan + `</p>              
+        <p> Kelurahan / Desa : ` + usersObj[childId].kelDes + `</p>              
+        <p> Kenalan : ` + usersObj[childId].kenalan + `</p>              
+        <p> Nama : ` + usersObj[childId].nama + `</p>              
+        <p> Profesi : ` + usersObj[childId].profesi + `</p>              
+        <p> RT(Rukun Tetangga) : ` + usersObj[childId].rt + `</p>              
+        <p> RW(Rukun Warga) : ` + usersObj[childId].rw + `</p>              
+        <p> Status Perkawinan : ` + usersObj[childId].status + `</p>              
+        <p> Tempat Lahir : ` + usersObj[childId].tpLahir + `</p>              
+        <p> Tanggal Lahir : ` + usersObj[childId].tgLahir + `</p>              
+        <p> Umur : ` + usersObj[childId].umur + `</p> 
+        <p>R u sure u wanna delete this data, it wont appear again if u delete this data, u should input the new data again..</p>
+        <p class="text-primary"> So make sure u have already make a right choice </p>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="charts.html" onclick="hapus('`+ childId +`')" >Delete</a>
+        </div>   
+      `); 
+    });
+  // ---------------------------------- END OF DELETE MODAL --------------------------------------
+
+  $('#detailModal').on('hidden.bs.modal', function (e) {
+    $('#modalDetails').empty();
+  });
+
+  $('#editModal').on('hidden.bs.modal', function (e) {
+    $('#modalEdits').empty();
+  });
+
+  $('#deleteModal').on('hidden.bs.modal', function (e) {
+    $('#modalDelete').empty();
+  });
+  
   function hapus(satuId) {
     db.ref('Users/' + satuId).remove();
-    location.href = "chart.html";
-  }
-
-  function update(satuId) {
-    location.href = "charts.html?id=" + satuId
+    location.href = "charts.html";
   }
 
 </script>

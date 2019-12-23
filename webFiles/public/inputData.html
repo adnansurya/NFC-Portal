@@ -64,6 +64,10 @@
                       <input type="text" name="umur" id="umur" class="form-control form-control-user" placeholder="Tempat Lahir">
                     </div>
                     <div class="form-group">
+                      <label for="tpLahir" class="font-weight-bold mb-3"> Tempat Lahir </label>
+                      <input type="text" name="tpLahir" id="tpLahir" class="form-control form-control-user" placeholder="Tempat Lahir">
+                    </div>
+                    <div class="form-group">
                       <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
                       <input type="date" class="form-control form-control-user" name="tgLahir" id="tgLahir" placeholder="Tanggal Lahir">
                     </div>
@@ -141,10 +145,11 @@
   <script>
     $('#submitBtn').click(function(){
 
-        let idNFC, namaOrang, umurOrang, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
+        let idNFC, namaOrang, umurOrang, tpLahir, tgLahir, jKel, alamat, rt, rw, kelDes, kecamatan, agama, status, profesiOrang, kNegara, identitas, home, visitor, kenalan;
         idNFC = $('#idNFC').val();
         namaOrang = $('#namaOrang').val(); 
         umurOrang = $('#umur').val();
+        tpLahir = $('#tpLahir').val();
         tgLahir = $('#tgLahir').val();
         jKel = $('#jKel').val();
         alamat = $('#alamat').val();
@@ -164,6 +169,7 @@
           // NOTE : JANGAN DI HAPUS WOI(MASIH AWAM)
             nama : namaOrang,
             umur : umurOrang,
+            tpLahir : tpLahir,
             tgLahir : tgLahir,
             jKel : jKel,
             alamat : alamat,
@@ -185,6 +191,7 @@
                 $('#idNFC').val('');
                 $('#namaOrang').val('');
                 $('#umur').val('');
+                $('#tpLahir').val('');
                 $('#tgLahir').val('');
                 $('#jKel').val('');
                 $('#alamat').val('');
