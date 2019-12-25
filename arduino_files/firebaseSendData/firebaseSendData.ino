@@ -32,11 +32,21 @@ QueryFilter query;
 Servo servo;
 
 String datanya;
+int deg = 0;
+int data;
 int pos; 
+const int white = D1;
+const int green = D8;
+const int red = D7;
+const int button = D5;
 
 void setup() {
   Serial.begin(115200);
   servo.attach(D6);
+  pinMode(green, OUTPUT);
+  pinMode(red, OUTPUT);
+  pinMode(white, OUTPUT);
+  pinMode(button, INPUT_PULLUP);
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
@@ -57,14 +67,19 @@ void setup() {
 
 void loop() {
 
+  data = digitalRead(button);
+  if( data == 1 ) {
+    naikDeg();  
+  } else {
+    turunDeg();  
+  }
   while(Serial.available() > 0){  
     datanya = Serial.readStringUntil('\n');
     datanya.trim();
     Serial.print("Dari Arduino : " + datanya);
     kirimData(datanya);   
   }
-
-  delay(5000);
+  delay(2000);
 }
 
 void kirimData(String idNFC ) {
@@ -75,15 +90,13 @@ void kirimData(String idNFC ) {
   Serial.println(firebaseData.jsonString());
   json.set("Status", "Dikenali");
   json.set("IdNFC", idNFC);
-  buka();
-  delay(10000);
-  tutup();
   
   if(Firebase.pushJSON(firebaseData, "/Log/", json)) {
     Serial.println("Log Berhasil");  
   } else {
       Serial.println("Log Gagal");  
   }
+  portal();
   
 } else {
   //Failed to get JSON data at defined database path, print out the error reason
@@ -92,12 +105,14 @@ void kirimData(String idNFC ) {
     json.set("IdNFC", idNFC);
     json.set("Status", "Tidak Dikenali");
     
-    
     if(Firebase.pushJSON(firebaseData, "/Log/", json)) {
       Serial.println("Log Berhasil");
     } else {
       Serial.println("Log Gagal");  
     }
+    digitalWrite(red, HIGH);
+    delay(3000);
+    digitalWrite(red, LOW);
   }
 }
 
@@ -106,16 +121,40 @@ query.clear();
   
 }
 
-void tutup() {
+void turunDeg() {
+  digitalWrite(white, LOW);
+  for (deg ; deg < 90; deg++) {
+  servo.write(deg);
+  delay(15);
+  }  
+}
+
+void naikDeg() {
+  digitalWrite(white, HIGH);
+  for (deg; deg >= 1; deg--) {
+  servo.write(deg);
+  delay(15);
+  }  
+}
+
+void turun() {
   for (pos = 0; pos < 90; pos ++) {
   servo.write(pos);
   delay(15);
   }
 }
 
-void buka() {
+void naik() {
+  digitalWrite(green, HIGH);
   for (pos = 90; pos >= 1; pos --) {
   servo.write(pos);
   delay(15);
   }
+}
+
+void portal() {
+  naik();
+  delay(10000);
+  digitalWrite(green, LOW);
+  turun();
 }
