@@ -11,12 +11,35 @@
 
   <title> NFC Parking </title>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+    apiKey: "AIzaSyCx6AdfG2fje0BXshS4koOw02GYTxH9ots",
+    authDomain: "myclasswebsite-3eca2.firebaseapp.com",
+    databaseURL: "https://myclasswebsite-3eca2.firebaseio.com",
+    projectId: "myclasswebsite-3eca2",
+    storageBucket: "myclasswebsite-3eca2.appspot.com",
+    messagingSenderId: "779841356082",
+    appId: "1:779841356082:web:e8f8e288c0feeb1025572b",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 
@@ -64,14 +87,14 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="editData.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span> Data User </span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="log.html">
           <i class="fas fa-fw fa-table"></i>
           <span> Log </span></a>
       </li>
@@ -356,6 +379,11 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
   <script src="js/demo/chart-bar-demo.js"></script>
+
+  <script>
+    // Baru mau di kerja cuk!!
+
+  </script>
 
 </body>
 

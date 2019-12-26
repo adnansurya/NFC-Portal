@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title> NFC Parking </title>
+  <title> Log | NFC Parking </title>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
@@ -27,8 +27,7 @@
 
   <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#config-web-app -->
-
-    <script>
+  <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
     apiKey: "AIzaSyCx6AdfG2fje0BXshS4koOw02GYTxH9ots",
@@ -42,8 +41,8 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 
@@ -90,15 +89,15 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item active">
-        <a class="nav-link" href="charts.html">
+      <li class="nav-item">
+        <a class="nav-link" href="editData.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span> Data User </span></a>
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+      <li class="nav-item active">
+        <a class="nav-link" href="log.html">
           <i class="fas fa-fw fa-table"></i>
           <span> Log </span></a>
       </li>
@@ -161,33 +160,36 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+          <h1 class="h3 mb-2 text-gray-800"> Log </h1>
           <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <h6 class="m-0 font-weight-bold text-primary"> Log Data </h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="tabelBody" width="100%" cellspacing="1">
-                  <thead>
-                    <tr>
-                      <th> Nama </th>
-                      <th> Alamat </th>
-                      <th> Identitas </th>
-                      <th> Profesi </th>
-                      <th> Action </th>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
+                <table class="table table-bordered" id="dataTable" width="100%">
+                  <table class="table" id="tabelBody">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col"> Id NFC </th>
+                        <th scope="col"> Identitas </th>
+                        <th scope="col"> Waktu </th>
+                        <th scope="col"> Action </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                  </table>
                 </table>
               </div>
             </div>
           </div>
-      
-      <!-- Detail Modal -->
+
+          <!-- Detail Modal -->
           <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -229,24 +231,6 @@
               </div>
             </div>
 
-            <!-- Delete Modal -->
-              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel"> Ouh Noo !! </h5>
-                      <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" id="modalDelete">
-                      
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-
         </div>
         <!-- /.container-fluid -->
 
@@ -261,6 +245,7 @@
           </div>
         </div>
       </footer>
+      <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
@@ -292,8 +277,6 @@
     </div>
   </div>
 
-<!-- FIREBASE CONFIG -->
-
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -314,67 +297,68 @@
   <script src="script.js"></script>
 
   <script>
-
   let usersObj;
 
-  db.ref('Users').once('value').then(function(snapshot) {
-
-    usersObj = snapshot.val();
-
+  db.ref('Log').once('value').then(function(snapshot) {
+    
     snapshot.forEach(function(data) {
       let satuId = data.val();
+      let tombol;
+
+      if(satuId.Status === "Dikenali") {
+        tombol = 
+          `<a type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#detailModal" data-child-id="` + data.key + `" data-id-nfc="`+satuId.IdNFC+`"> Detail
+          </a>`;
+      } else {
+       tombol = 
+          `<a type="button" class="btn btn-success" href="#" data-toggle="modal" data-target="#editModal" data-child-id="` + data.key + `" data-id-nfc="`+satuId.IdNFC+`">
+            Daftar
+          </a>`;
+      }
 
       $('#tabelBody').append(`
         <tr>
-          <td>` + satuId.nama + `</td>
-          <td>` + satuId.alamat + `</td>
-          <td>` + satuId.identitas + `</td>
-          <td>` + satuId.profesi + `</td>
-          <td>
-          <!-- Detail Button -->
-          <a type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#detailModal" data-child-id="`+ data.key +`">
-            Details
-          </a>
-          <!-- Edit Button -->
-          <a type="button" class="btn btn-warning" href="#" data-toggle="modal" data-target="#editModal" data-child-id="` + data.key + `">
-            Edit
-          </a>
-          <!-- Delete Button -->
-          <a type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" data-child-id="` +data.key+ `">
-            Delete
-          </a>
-          </td>
+          <td>` + satuId.IdNFC + `</td>
+          <td>` + satuId.Status + `</td>
+          <td> ` + satuId.Waktu + ` </td>
+          <td>` + tombol + `</td>
         </tr>
-
       `);
-
     });
-  });
+  }); 
+
  
- // ------------------------------ DETAILS MODAL ------------------------------
+  // ------------------------------ DETAILS MODAL ------------------------------
   $('#detailModal').on('show.bs.modal', function(e) {
-  
+    let userObj;
+    
     let childId = $(e.relatedTarget).data('child-id');
-  
-    $('#modalDetails').append(`
-        <p> Id NFC : ` + childId + `</p> 
-        <p> Agama : ` + usersObj[childId].agama  + `</p>
-        <p> Alamat : ` + usersObj[childId].alamat  + `</p>                     
-        <p> Identitas : ` + usersObj[childId].identitas  + `</p>              
-        <p> Jenis Kelamin : ` + usersObj[childId].jKel  + `</p>              
-        <p> Kewarganegaraan : ` + usersObj[childId].kNegara  + `</p>              
-        <p> Kecamatan : ` + usersObj[childId].kecamatan + `</p>              
-        <p> Kelurahan / Desa : ` + usersObj[childId].kelDes + `</p>              
-        <p> Kenalan : ` + usersObj[childId].kenalan + `</p>              
-        <p> Nama : ` + usersObj[childId].nama + `</p>              
-        <p> Profesi : ` + usersObj[childId].profesi + `</p>              
-        <p> RT(Rukun Tetangga) : ` + usersObj[childId].rt + `</p>              
-        <p> RW(Rukun Warga) : ` + usersObj[childId].rw + `</p>              
-        <p> Status Perkawinan : ` + usersObj[childId].status + `</p>              
-        <p> Tempat Lahir : ` + usersObj[childId].tpLahir + `</p>              
-        <p> Tanggal Lahir : ` + usersObj[childId].tgLahir + `</p>              
-        <p> Umur : ` + usersObj[childId].umur + `</p>              
+    let idNFC = $(e.relatedTarget).data('id-nfc'); 
+    
+     db.ref('Users/' + idNFC).once('value').then(function(snapshot) {
+      userObj = snapshot.val();
+
+       $('#modalDetails').append(`
+        <p> Id Push : ` + childId + `</p> 
+        <p> Agama : ` + userObj.agama  + `</p>
+        <p> Alamat : ` + userObj.alamat  + `</p>                     
+        <p> Identitas : ` + userObj.identitas  + `</p>              
+        <p> Jenis Kelamin : ` + userObj.jKel  + `</p>              
+        <p> Kewarganegaraan : ` + userObj.kNegara  + `</p>              
+        <p> Kecamatan : ` + userObj.kecamatan + `</p>              
+        <p> Kelurahan / Desa : ` + userObj.kelDes + `</p>              
+        <p> Kenalan : ` + userObj.kenalan + `</p>              
+        <p> Nama : ` + userObj.nama + `</p>              
+        <p> Profesi : ` + userObj.profesi + `</p>              
+        <p> RT(Rukun Tetangga) : ` + userObj.rt + `</p>              
+        <p> RW(Rukun Warga) : ` + userObj.rw + `</p>              
+        <p> Status Perkawinan : ` + userObj.status + `</p>              
+        <p> Tempat Lahir : ` + userObj.tpLahir + `</p>              
+        <p> Tanggal Lahir : ` + userObj.tgLahir + `</p>              
+        <p> Umur : ` + userObj.umur + `</p>              
     `); 
+    });
+   
   });
   // ------------------------------ END OF DETAILS MODAL -----------------------------------
 
@@ -382,80 +366,80 @@
   $('#editModal').on('show.bs.modal', function(e) {
 
     let childId = $(e.relatedTarget).data('child-id');
-
+    let idNFC = $(e.relatedTarget).data('id-nfc');
     $('#modalEdits').append(`
       <form class="user">
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Id NFC </h5>
-            <h6 class=""> `+ childId +` </h6>
-            <input type="hidden" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ childId +`">
+            <h6 class=""> `+ idNFC +` </h6>
+            <input type="hidden" class="form-control form-control-user" id="idNFC" placeholder="IdNFC" value="`+ idNFC +`">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Nama </h5>
-            <input type="text" class="form-control form-control-user" id="namaOrang" placeholder="Nama" value="`+ usersObj[childId].nama +`">
+            <input type="text" class="form-control form-control-user" id="namaOrang" placeholder="Nama">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Umur </h5>
-            <input type="text" class="form-control form-control-user" id="umur" placeholder="umur" value="`+ usersObj[childId].umur +`">
+            <input type="text" class="form-control form-control-user" id="umur" placeholder="umur">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Tempat Lahir </h5>
-            <input type="text" class="form-control form-control-user" id="tpLahir" placeholder="Tempat Lahir" value="`+ usersObj[childId].tpLahir +`">
+            <input type="text" class="form-control form-control-user" id="tpLahir" placeholder="Tempat Lahir">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Tanggal Lahir </h5>
-            <input type="date" class="form-control form-control-user" id="tgLahir" placeholder="Tanggal Lahir" value="`+ usersObj[childId].tgLahir +`">
+            <input type="date" class="form-control form-control-user" id="tgLahir" placeholder="Tanggal Lahir">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
-            <input type="text" class="form-control form-control-user" id="jKel" placeholder="Jenis Kelamin" value="`+ usersObj[childId].jKel +`">
+            <input type="text" class="form-control form-control-user" id="jKel" placeholder="Jenis Kelamin">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Alamat </h5>
-            <input type="text" class="form-control form-control-user" id="alamat" placeholder="Alamat" value="`+ usersObj[childId].alamat +`">
+            <input type="text" class="form-control form-control-user" id="alamat" placeholder="Alamat">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> RT </h5>
-            <input type="text" class="form-control form-control-user" id="rt" placeholder="RT" value="`+ usersObj[childId].rt +`">
+            <input type="text" class="form-control form-control-user" id="rt" placeholder="RT">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> RW </h5>
-            <input type="text" class="form-control form-control-user" id="rw" placeholder="RW" value="`+ usersObj[childId].rw +`">
+            <input type="text" class="form-control form-control-user" id="rw" placeholder="RW">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Kelurahan / Desa </h5>
-            <input type="text" class="form-control form-control-user" id="kelDes" placeholder="Kel / Desa" value="`+ usersObj[childId].kelDes +`">
+            <input type="text" class="form-control form-control-user" id="kelDes" placeholder="Kel / Desa">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Kecamatan </h5>
-            <input type="text" class="form-control form-control-user" id="kecamatan" placeholder="Kecamatan" value="`+ usersObj[childId].kecamatan +`">
+            <input type="text" class="form-control form-control-user" id="kecamatan" placeholder="Kecamatan">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Agama </h5>
-            <input type="text" class="form-control form-control-user" id="agama" placeholder="Agama" value="`+ usersObj[childId].agama +`">
+            <input type="text" class="form-control form-control-user" id="agama" placeholder="Agama">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Status Perkawinan </h5>
-            <input type="text" class="form-control form-control-user" id="status" placeholder="Status Perkawinan" value="`+ usersObj[childId].status +`">
+            <input type="text" class="form-control form-control-user" id="status" placeholder="Status Perkawinan">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Pekerjaan </h5>
-            <input type="text" class="form-control form-control-user" id="profesi" placeholder="Pekerjaan" value="`+ usersObj[childId].profesi +`">
+            <input type="text" class="form-control form-control-user" id="profesi" placeholder="Pekerjaan">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Kewarganegaraan </h5>
-            <input type="text" class="form-control form-control-user" id="kNegara" placeholder="Kewarganegaraan" value="`+ usersObj[childId].kNegara +`">
+            <input type="text" class="form-control form-control-user" id="kNegara" placeholder="Kewarganegaraan">
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Jenis Identitas </h5>
-            <select class="form-control" onchange="pilihJenis()" id="identitas" value="` +usersObj[childId].identitas+ `">
+            <select class="form-control" onchange="pilihJenis()" id="identitas">
               <option name="home" id="home" value="home"> Pemilik Rumah </option>
               <option name="visitor" id="visitor" value="visitor"> Tamu </option>
             </select>
           </div>
           <div class="form-group" id="overlay" style="display: none;">
             <h5 class="font-weight-bold mb-3"> Kenalan </h5>
-            <input type="search" class="form-control form-control-user" name="kenalan" id="kenalan" placeholder="Kenalan" value="`+usersObj[childId].kenalan+`">
+            <input type="search" class="form-control form-control-user" name="kenalan" id="kenalan" placeholder="Kenalan">
           </div>
           <button id="submitBtn" class="btn btn-primary btn-user btn-block">
             Kirim
@@ -530,7 +514,7 @@
                 $('#kNegara').val('');
                 $('#identitas').val('');
                 $('#kenalan').val('');
-                location.href = "charts.html";
+                location.href = "tables.html";
                 // location.href = "index2.html"; //pindah ke index.html
             }
         });
@@ -540,38 +524,6 @@
   });
   // ------------------- END OF EDIT MODAL ------------------------------
 
-  // -------------------------- DELETE MODAL ---------------------------
-  $('#deleteModal').on('show.bs.modal', function(e) {
-      let childId = $(e.relatedTarget).data('child-id');
-
-      $('#modalDelete').append(`
-        <p> Id NFC : ` + childId + `</p> 
-        <p> Agama : ` + usersObj[childId].agama  + `</p>
-        <p> Alamat : ` + usersObj[childId].alamat  + `</p>                     
-        <p> Identitas : ` + usersObj[childId].identitas  + `</p>              
-        <p> Jenis Kelamin : ` + usersObj[childId].jKel  + `</p>              
-        <p> Kewarganegaraan : ` + usersObj[childId].kNegara  + `</p>              
-        <p> Kecamatan : ` + usersObj[childId].kecamatan + `</p>              
-        <p> Kelurahan / Desa : ` + usersObj[childId].kelDes + `</p>              
-        <p> Kenalan : ` + usersObj[childId].kenalan + `</p>              
-        <p> Nama : ` + usersObj[childId].nama + `</p>              
-        <p> Profesi : ` + usersObj[childId].profesi + `</p>              
-        <p> RT(Rukun Tetangga) : ` + usersObj[childId].rt + `</p>              
-        <p> RW(Rukun Warga) : ` + usersObj[childId].rw + `</p>              
-        <p> Status Perkawinan : ` + usersObj[childId].status + `</p>              
-        <p> Tempat Lahir : ` + usersObj[childId].tpLahir + `</p>              
-        <p> Tanggal Lahir : ` + usersObj[childId].tgLahir + `</p>              
-        <p> Umur : ` + usersObj[childId].umur + `</p> 
-        <p>R u sure u wanna delete this data, it wont appear again if u delete this data, u should input the new data again..</p>
-        <p class="text-primary"> So make sure u have already make a right choice </p>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="charts.html" onclick="hapus('`+ childId +`')" >Delete</a>
-        </div>   
-      `); 
-    });
-  // ---------------------------------- END OF DELETE MODAL --------------------------------------
-
   $('#detailModal').on('hidden.bs.modal', function (e) {
     $('#modalDetails').empty();
   });
@@ -580,17 +532,7 @@
     $('#modalEdits').empty();
   });
 
-  $('#deleteModal').on('hidden.bs.modal', function (e) {
-    $('#modalDelete').empty();
-  });
-  
-  function hapus(satuId) {
-    db.ref('Users/' + satuId).remove();
-    location.href = "charts.html";
-  }
-
-</script>
-
+  </script>
 
 </body>
 

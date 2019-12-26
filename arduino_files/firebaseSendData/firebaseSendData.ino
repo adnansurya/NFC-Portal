@@ -154,7 +154,7 @@ void naik() {
 
 void portal() {
   naik();
-  delay(10000);
+  delay(5000);
   digitalWrite(green, LOW);
   turun();
 }
