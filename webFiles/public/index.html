@@ -166,7 +166,7 @@
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -193,12 +193,18 @@
               </div>
             </div>
 
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
+           
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+             <!-- Pie Chart -->
+            <div class="col-xl-5 col-lg-5">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                  <h6 class="m-0 font-weight-bold text-primary"> Statistik Pengguna </h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -219,63 +225,24 @@
                   </div>
                   <div class="mt-4 text-center small">
                     <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
+                      <i class="fas fa-circle text-primary"></i> Home
                     </span>
                     <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
+                      <i class="fas fa-circle text-success"></i> Visitor
                     </span>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <div class="col-lg-6 mb-4">
-            <!-- Approach -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
                 </div>
               </div>
             </div>
             
-            <div class="col-lg-6 mb-4">
-            <!-- Project Card Example -->
-              <div class="card shadow mb-4">
+            <div class="col-lg-7 mb-4">
+            <!-- ----------------------------------Project Card Example------------------------------- -->
+              <div class="card shadow mb-4" id="persentase">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
                 </div>
-                <div class="card-body">
-                  <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
+                <div class="card-body" id="persentaseSatu">
+                  
                 </div>
               </div>
             </div>
@@ -381,7 +348,77 @@
   <script src="js/demo/chart-bar-demo.js"></script>
 
   <script>
-    // Baru mau di kerja cuk!!
+
+    let usersObj;
+    let pria = 0, wanita = 0, total, hasilPria, hasilWanita;
+
+    db.ref('Users').once('value').then(function(snapshot) {
+      usersObj = snapshot.val();
+
+      snapshot.forEach(function(data) {
+        let satuId = data.val();
+
+        if(satuId.jKel === 'pria'){
+          pria++;
+        }else if(satuId.jKel === 'wanita'){
+          wanita++;
+        }
+
+      });
+
+      total = pria + wanita;
+      hasilPria = (pria /  total) * 100;
+      hasilPria = Math.round(hasilPria);
+      hasilWanita = 100 - hasilPria;
+
+      $('#persentaseSatu').append(`
+        <h4 class="small font-weight-bold"> Jumlah User pria yang terdaftar : <span class="float-right">` + hasilPria + ` %</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: `+ hasilPria +`%" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <h4 class="small font-weight-bold"> Jumlah User wanita yang terdaftar <span class="float-right">` + hasilWanita + `%</span></h4>
+        <div class="progress mb-4">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: ` + hasilWanita + `%" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>  
+      `);
+      
+    });
+
+    let usersData;
+    let dikenali = 0, tidakDikenali = 0, Total, hasilDikenali, hasilTidakDikenali;
+
+    db.ref('Log').once('value').then(function(snapshot) {
+      usersData = snapshot.val();
+
+      snapshot.forEach(function(data) {
+        let satuid = data.val();
+      
+        // console.log(satuid.Status);
+        if(satuid.Status === 'Dikenali') {
+          dikenali++;
+        } else if(satuid.Status === 'Tidak Dikenali') {
+          tidakDikenali++;
+        }
+
+      });
+      Total = dikenali + tidakDikenali;
+      hasilDikenali = (dikenali / Total) * 100;
+      hasilDikenali = Math.round(hasilDikenali);
+      hasilTidakDikenali = 100 - hasilDikenali;
+
+      // Statistik
+    $('#persentaseSatu').append(`
+      <h4 class="small font-weight-bold"> Pengguna yang dikenali <span class="float-right"> ` + hasilDikenali + ` %</span></h4>
+      <div class="progress mb-4">
+        <div class="progress-bar" role="progressbar" style="width: ` + hasilDikenali + `%" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <h4 class="small font-weight-bold"> Pengguna yang tidak dikenali <span class="float-right"> ` + hasilTidakDikenali + ` %</span></h4>
+      <div class="progress mb-4">
+        <div class="progress-bar bg-info" role="progressbar" style="width: ` + hasilTidakDikenali + `%" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    `);
+
+    });
 
   </script>
 

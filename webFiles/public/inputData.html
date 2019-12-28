@@ -73,7 +73,10 @@
                     </div>
                     <div class="form-group">
                       <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
-                      <input type="text" class="form-control form-control-user" name="jKel" id="jKel" placeholder="Jenis Kelamin">
+                      <select class="form-control" onchange="pilihJenis()" id="jKel">
+                        <option name="pria" id="pria" value="pria"> Pria </option>
+                        <option name="wanita" id="wanita" value="wanita"> Wanita </option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <h5 class="font-weight-bold mb-3"> Alamat </h5>

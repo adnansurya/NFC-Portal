@@ -408,7 +408,10 @@
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Jenis Kelamin </h5>
-            <input type="text" class="form-control form-control-user" id="jKel" placeholder="Jenis Kelamin" value="`+ usersObj[childId].jKel +`">
+            <select class="form-control" id="jKel" value="`+ usersObj[childId].jKel +`">
+              <option name="pria" id="pria" value="pria"> Pria </option>
+              <option name="wanita" id="wanita" value="wanita"> Wanita </option>
+            </select>
           </div>
           <div class="form-group">
             <h5 class="font-weight-bold mb-3"> Alamat </h5>

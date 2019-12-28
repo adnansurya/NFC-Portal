@@ -27,12 +27,51 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-// Area Chart Example
-var ctx = document.getElementById("myAreaChart");
+let pushId, waktu;
+var jumlah = [];
+let str = [];
+let angka = [];
+db.ref('Log').once('value').then(function(snapshot) {
+  pushId = snapshot.val();
+
+  snapshot.forEach(function(data) {
+    let logId = data.val();
+    waktu = logId.Waktu;
+    waktu = waktu.split(" ");
+    waktu = waktu[1];
+    waktu = waktu.split(":");
+    waktu = waktu[0];
+    console.log(waktu);
+    jumlah.push(parseInt(waktu));
+  });
+  compareData();
+  tampilData(str, angka);
+    
+});
+
+
+function compareData() {
+   for(let i = 0; i  <= 23; i++ ) {
+      
+    let total = 0;
+    for( let j = 0; j <= jumlah.length; j++ ) {
+        if(i == jumlah[j]){
+          total++;
+        }
+    }
+    angka.push(total);
+    str.push(i.toString());
+  }
+  console.log(angka);
+}
+
+  
+function tampilData(label, data) {
+  var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: label,
     datasets: [{
       label: "Earnings",
       lineTension: 0.3,
@@ -46,7 +85,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+      data: data,
     }],
   },
   options: {
@@ -69,7 +108,7 @@ var myLineChart = new Chart(ctx, {
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 7
+          maxTicksLimit: 24
         }
       }],
       yAxes: [{
@@ -78,7 +117,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return number_format(value);
           }
         },
         gridLines: {
@@ -110,9 +149,12 @@ var myLineChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + " " + number_format(tooltipItem.yLabel);
         }
       }
     }
   }
+
 });
+
+}
