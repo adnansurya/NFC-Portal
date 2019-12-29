@@ -27,31 +27,52 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-let pushId, waktu;
+let pushId, waktu, datePicker;
+let dateRes = $('#date').val();
 var jumlah = [];
+let date = [];
 let str = [];
 let angka = [];
+
 db.ref('Log').once('value').then(function(snapshot) {
   pushId = snapshot.val();
 
   snapshot.forEach(function(data) {
+    takeData();
     let logId = data.val();
-    waktu = logId.Waktu;
-    waktu = waktu.split(" ");
-    waktu = waktu[1];
-    waktu = waktu.split(":");
-    waktu = waktu[0];
-    console.log(waktu);
-    jumlah.push(parseInt(waktu));
+
+    datePicker = logId.Waktu;
+    datePicker = datePicker.split(" ");
+    datePicker = datePicker[0];
+    datePicker = datePicker.split("-");
+    datePicker = datePicker[0];
+    date.push(parseInt(datePicker));
+
+    if( dateRes == datePicker ) {
+      waktu = logId.Waktu;
+      waktu = waktu.split(" ");
+      waktu = waktu[1];
+      waktu = waktu.split(":");
+      waktu = waktu[0];
+      jumlah.push(parseInt(waktu));
+    }
+
   });
   compareData();
   tampilData(str, angka);
     
 });
 
+function takeData() {
+  $('#Submit').click(function(){
+    dateRes = $('#date').val();
+    // location.href = "index.html";
+  });
+}
+// console.log(dateRes);
 
 function compareData() {
-   for(let i = 0; i  <= 23; i++ ) {
+  for(let i = 0; i  <= 23; i++ ) {
       
     let total = 0;
     for( let j = 0; j <= jumlah.length; j++ ) {
@@ -62,7 +83,7 @@ function compareData() {
     angka.push(total);
     str.push(i.toString());
   }
-  console.log(angka);
+  // console.log(angka);
 }
 
   
@@ -156,5 +177,6 @@ var myLineChart = new Chart(ctx, {
   }
 
 });
+myLineChart.update();
 
 }
