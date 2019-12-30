@@ -28,17 +28,92 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 let pushId, waktu, datePicker;
-let dateRes = $('#date').val();
+let dateRes;
 var jumlah = [];
-let date = [];
 let str = [];
 let angka = [];
+var myLineChart;
 
 db.ref('Log').once('value').then(function(snapshot) {
   pushId = snapshot.val();
 
   snapshot.forEach(function(data) {
-    takeData();
+    let logId = data.val();
+
+    waktu = logId.Waktu;
+    waktu = waktu.split(" ");
+    waktu = waktu[1];
+    waktu = waktu.split(":");
+    waktu = waktu[0];
+    jumlah.push(parseInt(waktu));
+
+  });
+  compareData();
+  tampilData(str, angka);
+    
+});
+
+$('#setDate').click(function() {
+  $('#DropDown').remove();
+  $('#setDrop').append(`
+    <input type="date-picker" class="form-control" placeholder="mm-yyyy" id="date" value="">
+    <button class="btn green" type="button" id="Submit">Apply</button>
+    <div class="dropdown no-arrow mt-2" id="DropDown">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-lg fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Select Costumize :</div>
+        <a class="dropdown-item" href="#" id="today">All</a>
+        <a class="dropdown-item" href="#" id="setDate">Set Date</a>
+      </div>
+    </div>
+  `);
+  $('#today').click(function() {
+    $('#date').remove();
+    $('#Submit').remove();
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    today();
+  });
+  $('#Submit').click(function(){
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    dateRes = $('#date').val();
+    dataBass();
+    console.log(dateRes);
+  });
+});
+
+function today() {
+  db.ref('Log').once('value').then(function(snapshot) {
+    pushId = snapshot.val();
+    jumlah = [];
+    snapshot.forEach(function(data) {
+      let logId = data.val();
+
+      waktu = logId.Waktu;
+      waktu = waktu.split(" ");
+      waktu = waktu[1];
+      waktu = waktu.split(":");
+      waktu = waktu[0];
+      jumlah.push(parseInt(waktu));
+
+    });
+    compareData();
+    tampilData(str, angka);
+      
+  });
+}
+
+function dataBass() {
+  db.ref('Log').once('value').then(function(snapshot) {
+  pushId = snapshot.val();
+  jumlah = [];
+  snapshot.forEach(function(data) {
+    
     let logId = data.val();
 
     datePicker = logId.Waktu;
@@ -46,7 +121,6 @@ db.ref('Log').once('value').then(function(snapshot) {
     datePicker = datePicker[0];
     datePicker = datePicker.split("-");
     datePicker = datePicker[0];
-    date.push(parseInt(datePicker));
 
     if( dateRes == datePicker ) {
       waktu = logId.Waktu;
@@ -63,13 +137,7 @@ db.ref('Log').once('value').then(function(snapshot) {
     
 });
 
-function takeData() {
-  $('#Submit').click(function(){
-    dateRes = $('#date').val();
-    // location.href = "index.html";
-  });
 }
-// console.log(dateRes);
 
 function compareData() {
   for(let i = 0; i  <= 23; i++ ) {
@@ -89,7 +157,7 @@ function compareData() {
   
 function tampilData(label, data) {
   var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
+  myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
     labels: label,
@@ -177,6 +245,5 @@ var myLineChart = new Chart(ctx, {
   }
 
 });
-myLineChart.update();
 
 }
