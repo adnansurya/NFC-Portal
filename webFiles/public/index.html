@@ -21,7 +21,8 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
   <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#config-web-app -->
   <script>
@@ -40,6 +41,7 @@
     const db = firebase.database();
   </script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+ 
 
 </head>
 
@@ -172,17 +174,20 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary"> Acces Time </h6>
                   <div class="row page-toolbar">                               
-                    <div class="input-group input-medium date date-picker" id="setDrop">
-                      
+                    <div class="input-group input-medium date date-picker">
+                      <span class="row mr-1" id="setDrop"></span>
                       <!-- DROPDOWN -->
-                      <div class="dropdown no-arrow mt-2" id="DropDown">
+                      <div class="dropdown no-arrow mt-2 fl-left" id="DropDown">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i class="fas fa-ellipsis-v fa-lg fa-fw text-gray-400"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                           <div class="dropdown-header">Select Costumize :</div>
-                          <a class="dropdown-item" href="#" id="today">All</a>
-                          <a class="dropdown-item" href="#" id="setDate">Set Date</a>
+
+                          <a class="dropdown-item" href="#" id="all">All</a>
+                          <a class="dropdown-item" href="#" id="pickDay">Pick Day</a>
+                          <a class="dropdown-item" href="#" id="pickMonth">Pick Month</a>
+                          <a class="dropdown-item" href="#" id="pickYear">Pick Year</a>
                         </div>
                       </div>
 
@@ -351,6 +356,8 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
   <script src="js/demo/chart-bar-demo.js"></script>
+
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
   <script>
 

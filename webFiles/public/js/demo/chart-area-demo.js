@@ -27,8 +27,8 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-let pushId, waktu, datePicker;
-let dateRes;
+let pushId, waktu, dateDay;
+let pickDay, pickMonth, pickYear, compare;
 var jumlah = [];
 let str = [];
 let angka = [];
@@ -53,41 +53,90 @@ db.ref('Log').once('value').then(function(snapshot) {
     
 });
 
-$('#setDate').click(function() {
-  $('#DropDown').remove();
-  $('#setDrop').append(`
-    <input type="date-picker" class="form-control" placeholder="mm-yyyy" id="date" value="">
-    <button class="btn green" type="button" id="Submit">Apply</button>
-    <div class="dropdown no-arrow mt-2" id="DropDown">
-      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-ellipsis-v fa-lg fa-fw text-gray-400"></i>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-        <div class="dropdown-header">Select Costumize :</div>
-        <a class="dropdown-item" href="#" id="today">All</a>
-        <a class="dropdown-item" href="#" id="setDate">Set Date</a>
-      </div>
-    </div>
-  `);
-  $('#today').click(function() {
-    $('#date').remove();
-    $('#Submit').remove();
-    myLineChart.destroy();
-    str = [];
-    angka = [];
-    today();
-  });
-  $('#Submit').click(function(){
-    myLineChart.destroy();
-    str = [];
-    angka = [];
-    dateRes = $('#date').val();
-    dataBass();
-    console.log(dateRes);
-  });
+$('#pickDay').click(function() {
+  compare = 0;
+  comparing();
 });
 
-function today() {
+$('#pickMonth').click(function() {
+  compare = 1;
+  comparing();
+});
+
+$('#pickYear').click(function() {
+  compare = 2;
+  comparing();
+});
+
+function comparing() {
+$('#setDrop').empty();
+
+  if( compare == 0 ) {
+    $('#setDrop').append(`
+      <input id="datepicker0" width="276" placeholder="day"/>
+      <button class="btn green" type="button" id="Submit0">Apply</button>
+    `);
+    $('#datepicker0').datepicker({
+      uiLibrary: 'bootstrap4',
+      format: "d-m-yyyy"
+    });
+  } else if( compare == 1 ) {
+    $('#setDrop').append(`
+      <input id="datepicker1" width="276" placeholder="month"/>
+      <button class="btn green" type="button" id="Submit1">Apply</button>
+    `);
+    $('#datepicker1').datepicker({
+      uiLibrary: 'bootstrap4',
+      format: "m-yyyy"
+    });
+  } else if( compare == 2 ) {
+    $('#setDrop').append(`
+      <input id="datepicker2" width="276" placeholder="year"/>
+      <button class="btn green" type="button" id="Submit2">Apply</button>
+    `);
+    $('#datepicker2').datepicker({
+      uiLibrary: 'bootstrap4',
+      format: "yyyy"
+    });
+  } else {
+    alert("Error!!");
+  }
+
+  $('#all').click(function() {
+    $('#setDrop').empty();
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    all();
+  });
+
+  $('#Submit0').click(function(){
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    pickDay = $('#datepicker0').val();
+    PickDays();
+  });
+
+  $('#Submit1').click(function(){
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    pickMonth = $('#datepicker1').val();
+    PickMonth();
+  });
+
+  $('#Submit2').click(function(){
+    myLineChart.destroy();
+    str = [];
+    angka = [];
+    pickYear = $('#datepicker2').val();
+    PickYear();
+  });
+
+}
+
+function all() {
   db.ref('Log').once('value').then(function(snapshot) {
     pushId = snapshot.val();
     jumlah = [];
@@ -108,7 +157,7 @@ function today() {
   });
 }
 
-function dataBass() {
+function PickDays() {
   db.ref('Log').once('value').then(function(snapshot) {
   pushId = snapshot.val();
   jumlah = [];
@@ -116,13 +165,73 @@ function dataBass() {
     
     let logId = data.val();
 
-    datePicker = logId.Waktu;
-    datePicker = datePicker.split(" ");
-    datePicker = datePicker[0];
-    datePicker = datePicker.split("-");
-    datePicker = datePicker[0];
+    dateDay = logId.Waktu;
+    dateDay = dateDay.split(" ");
+    dateDay = dateDay[0];
 
-    if( dateRes == datePicker ) {
+    if( pickDay == dateDay ) {
+      waktu = logId.Waktu;
+      waktu = waktu.split(" ");
+      waktu = waktu[1];
+      waktu = waktu.split(":");
+      waktu = waktu[0];
+      jumlah.push(parseInt(waktu));
+    }
+
+  });
+  compareData();
+  tampilData(str, angka);
+    
+});
+
+}
+
+function PickMonth() {
+  db.ref('Log').once('value').then(function(snapshot) {
+  pushId = snapshot.val();
+  jumlah = [];
+  snapshot.forEach(function(data) {
+    
+    let logId = data.val();
+
+    dateDay = logId.Waktu;
+    dateDay = dateDay.split(" ");
+    dateDay = dateDay[0];
+    dateDay = dateDay.split("-");
+    dateDay = dateDay[1] + "-" + dateDay[2];
+
+    if( pickMonth == dateDay ) {
+      waktu = logId.Waktu;
+      waktu = waktu.split(" ");
+      waktu = waktu[1];
+      waktu = waktu.split(":");
+      waktu = waktu[0];
+      jumlah.push(parseInt(waktu));
+    }
+
+  });
+  compareData();
+  tampilData(str, angka);
+    
+});
+
+}
+
+function PickYear() {
+  db.ref('Log').once('value').then(function(snapshot) {
+  pushId = snapshot.val();
+  jumlah = [];
+  snapshot.forEach(function(data) {
+    
+    let logId = data.val();
+
+    dateDay = logId.Waktu;
+    dateDay = dateDay.split(" ");
+    dateDay = dateDay[0];
+    dateDay = dateDay.split("-");
+    dateDay = dateDay[2];
+
+    if( pickYear == dateDay ) {
       waktu = logId.Waktu;
       waktu = waktu.split(" ");
       waktu = waktu[1];
@@ -141,7 +250,7 @@ function dataBass() {
 
 function compareData() {
   for(let i = 0; i  <= 23; i++ ) {
-      
+    
     let total = 0;
     for( let j = 0; j <= jumlah.length; j++ ) {
         if(i == jumlah[j]){
@@ -238,7 +347,8 @@ function tampilData(label, data) {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + " " + number_format(tooltipItem.yLabel);
+          // return datasetLabel + " " + number_format(tooltipItem.yLabel);
+          return number_format(tooltipItem.yLabel) + " " + " Users ";
         }
       }
     }
